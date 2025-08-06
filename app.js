@@ -24,7 +24,7 @@ const server = createServer({
 
 const ENDPOINT_CONFIGS = [
   { path: './endpoints/reqline/' },
-  { path: './endpoints/test/' }, // to test the reqline for POST request handling locally
+  // { path: './endpoints/test/' }, // to test the reqline for POST request handling locally
 ];
 
 function logEndpointMetaData(endpointConfigs) {
