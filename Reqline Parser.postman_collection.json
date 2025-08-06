@@ -1,0 +1,36 @@
+{
+	"info": {
+		"_postman_id": "482faf24-5f80-4bc4-a1a2-4c9af831a0fb",
+		"name": "Reqline Parser",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40555322"
+	},
+	"item": [
+		{
+			"name": "Reqline Parser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reqline\": \"HTTP GET | URL https://github.com/akineni\"\r\n//   \"reqline\": \"HTTP GET | URL http://github.com/akineni | QUERY {\\\"tab\\\": \\\"repositories\\\"} | HEADERS {\\\"Content-Type\\\": \\\"application/json\\\"}\"\r\n    // \"reqline\": \"HTTP POST | URL https://reqline-parser-ufd7.onrender.com | BODY {\\\"name\\\": \\\"Eniola\\\"} | QUERY {\\\"refid\\\": 1920933} | HEADERS {\\\"Content-Type\\\": \\\"application/json\\\"}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{root}}/",
+					"host": [
+						"{{root}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
