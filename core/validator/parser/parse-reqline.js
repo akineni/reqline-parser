@@ -1,6 +1,12 @@
 function parseReqline(reqline) {
   const allowedMethods = ['GET', 'POST'];
+  const allowedKeywords = ['HTTP', 'URL', 'HEADERS', 'QUERY', 'BODY'];
   const parts = reqline.split(' | ');
+
+  // Validate pipe delimiter spacing
+  if (reqline.includes('|') && !reqline.includes(' | ')) {
+    throw new Error('Pipe delimiter must have exactly one space on each side');
+  }
 
   const parsed = {
     method: '',
@@ -10,10 +16,9 @@ function parseReqline(reqline) {
     body: {},
   };
 
-  let foundHTTP = false;
-  let foundURL = false;
+  const seenKeywords = [];
 
-  parts.forEach((part) => {
+  parts.forEach((part, index) => {
     const firstSpaceIndex = part.indexOf(' ');
     if (firstSpaceIndex === -1) {
       throw new Error('Missing space after keyword');
@@ -22,9 +27,25 @@ function parseReqline(reqline) {
     const key = part.substring(0, firstSpaceIndex);
     const value = part.substring(firstSpaceIndex + 1).trim();
 
+    if (!allowedKeywords.includes(key)) {
+      throw new Error(`Invalid keyword '${key}'. Must be one of: ${allowedKeywords.join(', ')}`);
+    }
+
+    // Enforce fixed order
+    if (index === 0 && key !== 'HTTP') {
+      throw new Error('First keyword must be HTTP');
+    }
+    if (index === 1 && key !== 'URL') {
+      throw new Error('Second keyword must be URL');
+    }
+
+    if (seenKeywords.includes(key)) {
+      throw new Error(`Duplicate keyword '${key}'`);
+    }
+    seenKeywords.push(key);
+
     switch (key) {
       case 'HTTP':
-        foundHTTP = true;
         if (!allowedMethods.includes(value)) {
           throw new Error('Invalid HTTP method. Only GET and POST are supported');
         }
@@ -32,7 +53,6 @@ function parseReqline(reqline) {
         break;
 
       case 'URL':
-        foundURL = true;
         parsed.url = value;
         break;
 
@@ -46,13 +66,14 @@ function parseReqline(reqline) {
         }
         break;
 
+      // ESLint requires default case
       default:
-        throw new Error('Keywords must be uppercase and valid');
+        throw new Error(`Unexpected processing error for keyword '${key}'`);
     }
   });
 
-  if (!foundHTTP) throw new Error('Missing required HTTP keyword');
-  if (!foundURL) throw new Error('Missing required URL keyword');
+  if (!seenKeywords.includes('HTTP')) throw new Error('Missing required HTTP keyword');
+  if (!seenKeywords.includes('URL')) throw new Error('Missing required URL keyword');
 
   return parsed;
 }
