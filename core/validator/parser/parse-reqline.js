@@ -1,5 +1,4 @@
 function parseReqline(reqline) {
-  // const requiredKeywords = ['HTTP', 'URL'];
   const allowedMethods = ['GET', 'POST'];
   const parts = reqline.split(' | ');
 

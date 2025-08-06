@@ -45,6 +45,8 @@ module.exports = async function parseReqlineService(reqline) {
       },
     };
   } catch (err) {
+    // Handle all parsing errors gracefully with appropriate error messages
+
     const requestStop = Date.now();
     return {
       error: true,

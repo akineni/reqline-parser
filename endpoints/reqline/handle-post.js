@@ -29,7 +29,7 @@ module.exports = createHandler({
     } catch (err) {
       console.error('Caught in handler:', err);
       return {
-        status: 400,
+        status: helpers.http_statuses.HTTP_400_BAD_REQUEST,
         data: {
           error: true,
           message: err.message,
